@@ -19,9 +19,9 @@ export default function PlannerPage() {
     const addHotelsPrompt =
       "- Hotels (prefer not to change it unless traveling to another city)\n";
     const addRestaurantsPrompt =
-      "- Restaurants, one for lunch and another for dinner, with shortened Google Map links\n";
+      "- Restaurants, one for lunch and another for dinner\n";
 
-    let prompt = `${basePrompt} ${duration} days to ${selectedCountry} in the coming ${selectedMonth}. Describe the weather of that month, and also 5 things to take note about this country's culture. \n\nFor each day, list me the following:\n- places that are suitable for that season\n`;
+    let prompt = `${basePrompt} ${duration} days to ${selectedCountry} in the coming ${selectedMonth}. Describe the weather of that month, and also 5 things to take note about this country's culture. \n\nFor each day, list me the following:\n- 5 places that are suitable for that season\n`;
     if (hotels) prompt += addHotelsPrompt;
     if (restaurants) prompt += addRestaurantsPrompt;
     prompt +=
@@ -105,7 +105,7 @@ export default function PlannerPage() {
               <div className="mt-4">
                 <div>
                   <div className="flex items-center mb-2">
-                    <span className="ml-2">Recommendations?</span>
+                    <span className="ml-2">Also include</span>
                   </div>
                   <div>
                     <label className="inline-flex items-center mr-8">

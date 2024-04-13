@@ -1,18 +1,26 @@
 import { useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Setuser } from "../redux/user";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-
+  const { user } = useSelector((state) => state.user);
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Add your Place", href: "/smartPark/add-spot" },
     { name: "Planner", href: "/planner" },
     { name: "Trips", href: "/trips" },
   ];
-
+  const handleLogout = () => {
+    dispatch(Setuser(null));
+    localStorage.removeItem("token");
+    navigate("/");
+  };
   return (
     <Disclosure
       as="nav"
@@ -56,6 +64,21 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
+                    {user ? (
+                      <button
+                        className="hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    ) : (
+                      <Link
+                        to="/auth/login"
+                        className="hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                      >
+                        Login
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -73,6 +96,21 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
+              {user ? (
+                <button
+                  className="hover:bg-gray-800 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  to="/auth/login"
+                  className="hover:bg-gray-800 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </Disclosure.Panel>
         </>

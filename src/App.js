@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router";
+import { toast, Toaster } from "react-hot-toast";
 import Spinner from "./components/Loaders/Spinner";
 import Navbar from "./components/Navbar";
 import ErrorPage from "./pages/ErrorPage";
@@ -14,19 +15,49 @@ import SpotBookings from "./pages/smartPark/bookings";
 import MySpots from "./pages/smartPark/mySpots";
 import "./App.css";
 import TripsPage from "./pages/TripsPage";
+import Register from "./pages/AuthPage/Register";
+import Login from "./pages/AuthPage/Login";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import PublicRoute from "./components/Auth/PublicRoute";
+import ClusterMap from "./pages/smartPark/ClusterMap";
 export default function App() {
   const { loading } = useSelector((state) => state.alert);
   return (
     <div className="p-2 bg-black">
       <Navbar />
+      <Toaster />
       {loading ? (
         <Spinner />
       ) : (
         <>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/map" element={<ClusterMap />} />
+            <Route
+              path="/auth/register"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/auth/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
             <Route path="/smartPark" element={<SmartPark />} />
-            <Route path="/smartPark/add-spot" element={<AddSpotPage />} />
+            <Route
+              path="/smartPark/add-spot"
+              element={
+                <ProtectedRoute>
+                  <AddSpotPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/smartPark/add-spot/about-place"
               element={<AboutPlace />}
