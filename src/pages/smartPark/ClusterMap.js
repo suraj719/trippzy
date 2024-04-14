@@ -8,6 +8,7 @@ import { Avatar, Paper, Tooltip, Box } from "@mui/material";
 import PopupRoom from "./PopupRoom";
 import GeocoderInput from "./sidebar/GeocoderInput";
 import "mapbox-gl/dist/mapbox-gl.css";
+import axios from "axios";
 
 const supercluster = new Supercluster({
   radius: 75,
@@ -30,8 +31,39 @@ const ClusterMap = () => {
   useEffect(() => {
     getRooms(dispatch);
   }, []);
+  const [slots, setSlots] = useState([]);
+  const fetchSlots = async () => {
+    try {
+      // dispatch(ShowLoading());
+      const response = await axios.get(`http://localhost:5000/room`);
+      // dispatch(HideLoading());
+      if (response?.data?.success) {
+        console.log(response);
+        setSlots(response.data.result);
+        // const filteredQuizzes = response.data.data.filter(
+        //   (quiz) => quiz.createdBy._id === teacher._id
+        // );
+        // setData(filteredQuizzes);
+      } else {
+        // toast.error(response.data.message);
+      }
+    } catch (error) {
+      // dispatch(HideLoading());
+      // toast.error(error.message);
+    }
+  };
   useEffect(() => {
-    const points = filteredRooms.map((room) => ({
+    fetchSlots();
+  }, []);
+  const [initialViewState, setInitialViewState] = useState({
+    latitude: "17.366",
+    longitude: "78.476",
+    zoom: 2,
+    width: "100%",
+    height: "100%",
+  });
+  useEffect(() => {
+    const points = slots.map((room) => ({
       type: "Feature",
       properties: {
         cluster: false,
@@ -51,7 +83,7 @@ const ClusterMap = () => {
       },
     }));
     setPoints(points);
-  }, [filteredRooms]);
+  }, [slots]);
   useEffect(() => {
     supercluster.load(points);
     setClusters(supercluster.getClusters(bounds, zoom));
@@ -65,14 +97,19 @@ const ClusterMap = () => {
 
   return (
     <div>
-      <div className="h-[88vh] w-full">
-        <div className="fixed top-20 z-10">
+      <div className="float-right my-2">
+        <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
+          Add a slot
+        </button>
+      </div>
+      <div className="h-[80vh] w-full">
+        <div className="fixed top-36 z-10">
           <Box sx={{ width: 240, p: 3 }}>
             <Box ref={containerRef}></Box>
           </Box>
         </div>
         <ReactMapGL
-          initialViewState={{ latitude: 17.4065, longitude: 78.4772 }}
+          initialViewState={initialViewState}
           mapboxAccessToken={process.env.REACT_APP_MAPBOX_KEY}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           ref={mapRef}

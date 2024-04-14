@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-export default function SetPrice() {
+export default function SetPrice({ setIndex }) {
   return (
     <>
       <div className="flex flex-wrap items-center justify-center flex-col lg:min-h-[79vh] min-h-[70vh] p-5">
@@ -23,13 +22,14 @@ export default function SetPrice() {
         </div>
       </div>
       <div className="absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">
-        <Link to="/smartPark/add-spot/add-images">
-          <button className="border p-3 rounded-lg w-[150px] hover:bg-gray-800">
-            back
-          </button>
-        </Link>
-
-        {/* add an onclick event to publish the place */}
+        <button
+          onClick={() => {
+            setIndex(2);
+          }}
+          className="border p-3 rounded-lg w-[150px] hover:bg-gray-800"
+        >
+          back
+        </button>
         <button className="bg-green-500 hover:bg-green-600 p-3 rounded-lg text-white w-[150px]">
           Publish
         </button>
