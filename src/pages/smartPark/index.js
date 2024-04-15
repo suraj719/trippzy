@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
+import ClusterMap from "./ClusterMap";
 export default function SmartPark() {
   const [pinCode, setPinCode] = useState(501510);
 
@@ -137,7 +138,8 @@ export default function SmartPark() {
   ]);
   return (
     <>
-      <div className="my-5 mb-10">
+      <ClusterMap />
+      {/* <div className="my-5 mb-10">
         <div className=" flex items-center justify-center gap-2">
           <div className="bg-gray-100 rounded-full border-2 p-2  shadow-md outline-none justify-self-center">
             <input
@@ -171,28 +173,11 @@ export default function SmartPark() {
                   pincode={place.pincode}
                   priceperday={place.priceperday}
                 />
-                {/* <img
-                  src={place.images[0]}
-                  alt={`img${id}`}
-                  className="rounded-2xl object-cover"
-                  style={{ width: "25rem", height: "20rem" }}
-                />
-                <div className="p-2">
-                  <div className="flex justify-between text-xl font-bold">
-                    <p>
-                      {place.location}, {place.pincode}
-                    </p>
-                    <p>⭐{place.rating}</p>
-                  </div>
-                  <p className="font-semibold text-md">
-                    ₹ {place.priceperday} per day
-                  </p>
-                </div> */}
               </div>
             );
           })}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -1,5 +1,10 @@
 import React from "react";
-export default function SetPrice({ setIndex }) {
+export default function SetPrice({
+  setIndex,
+  handleChange,
+  slotData,
+  handleSave,
+}) {
   return (
     <>
       <div className="flex flex-wrap items-center justify-center flex-col lg:min-h-[79vh] min-h-[70vh] p-5">
@@ -16,7 +21,8 @@ export default function SetPrice({ setIndex }) {
             className="outline-none w-60"
             type="number"
             placeholder="price"
-            defaultValue="0"
+            value={slotData.price}
+            onChange={(e) => handleChange("price", e.target.value)}
             onWheel={(event) => event.currentTarget.blur()}
           />
         </div>
@@ -30,7 +36,10 @@ export default function SetPrice({ setIndex }) {
         >
           back
         </button>
-        <button className="bg-green-500 hover:bg-green-600 p-3 rounded-lg text-white w-[150px]">
+        <button
+          onClick={handleSave}
+          className="bg-green-500 hover:bg-green-600 p-3 rounded-lg text-white w-[150px]"
+        >
           Publish
         </button>
       </div>

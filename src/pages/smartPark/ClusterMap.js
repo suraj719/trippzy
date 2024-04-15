@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useValue } from "../../context/ContextProvider";
-import { getRooms } from "../../actions/room";
+import React, { useEffect, useRef, useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import Supercluster from "supercluster";
 import "./cluster.css";
-import { Avatar, Paper, Tooltip, Box } from "@mui/material";
 import PopupRoom from "./PopupRoom";
-import GeocoderInput from "./sidebar/GeocoderInput";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
+import Geocoder from "./Geocoder";
+import { Link } from "react-router-dom";
 
 const supercluster = new Supercluster({
   radius: 75,
@@ -16,70 +14,53 @@ const supercluster = new Supercluster({
 });
 
 const ClusterMap = () => {
-  const {
-    state: { filteredRooms },
-    dispatch,
-    containerRef,
-    mapRef,
-  } = useValue();
   const [points, setPoints] = useState([]);
   const [clusters, setClusters] = useState([]);
   const [bounds, setBounds] = useState([-180, -85, 180, 85]);
   const [zoom, setZoom] = useState(0);
   const [popupInfo, setPopupInfo] = useState(null);
-
-  useEffect(() => {
-    getRooms(dispatch);
-  }, []);
+  const mapRef = useRef();
   const [slots, setSlots] = useState([]);
   const fetchSlots = async () => {
     try {
-      // dispatch(ShowLoading());
-      const response = await axios.get(`http://localhost:5000/room`);
-      // dispatch(HideLoading());
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/api/slot/get-slots`
+      );
       if (response?.data?.success) {
         console.log(response);
-        setSlots(response.data.result);
-        // const filteredQuizzes = response.data.data.filter(
-        //   (quiz) => quiz.createdBy._id === teacher._id
-        // );
-        // setData(filteredQuizzes);
+        setSlots(response.data.data);
       } else {
-        // toast.error(response.data.message);
       }
     } catch (error) {
-      // dispatch(HideLoading());
-      // toast.error(error.message);
+      console.log(error);
     }
   };
   useEffect(() => {
     fetchSlots();
   }, []);
-  const [initialViewState, setInitialViewState] = useState({
-    latitude: "17.366",
-    longitude: "78.476",
-    zoom: 2,
-    width: "100%",
-    height: "100%",
-  });
+  // const initialViewState = {
+  //   // latitude: "17.366",
+  //   // longitude: "78.476",
+  //   zoom: 12,
+  //   width: "100%",
+  //   height: "100%",
+  // };
   useEffect(() => {
-    const points = slots.map((room) => ({
+    const points = slots.map((slot) => ({
       type: "Feature",
       properties: {
         cluster: false,
-        roomId: room._id,
-        price: room.price,
-        title: room.title,
-        description: room.description,
-        lng: room.lng,
-        lat: room.lat,
-        images: room.images,
-        uPhoto: room.uPhoto,
-        uName: room.uName,
+        slotId: slot._id,
+        price: slot.price,
+        description: slot.description,
+        lng: slot.lng,
+        lat: slot.lat,
+        images: slot.images,
+        uploadedBy: slot.uploadedBy,
       },
       geometry: {
         type: "Point",
-        coordinates: [parseFloat(room.lng), parseFloat(room.lat)],
+        coordinates: [parseFloat(slot.lng), parseFloat(slot.lat)],
       },
     }));
     setPoints(points);
@@ -94,22 +75,44 @@ const ClusterMap = () => {
       setBounds(mapRef?.current.getMap().getBounds().toArray().flat());
     }
   }, [mapRef?.current]);
-
+  const [lat, setLat] = useState(17.366);
+  const [lng, setLng] = useState(78.476);
+  // useEffect(() => {
+  //   if ((lng || lat) && mapRef.current) {
+  //     mapRef.current.flyTo({
+  //       center: [lng, lat],
+  //     });
+  //   }
+  // }, [lng, lat]);
+  const handleChange = (newlat, newlng) => {
+    setLat(newlat);
+    setLng(newlng);
+  };
+  // useEffect(() => {
+  //   fetch("https://ipapi.co/json")
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       // handleChange(data.latitude, data.longitude);
+  //       mapRef.current.flyTo({
+  //         center: [data.longitude, data.latitude],
+  //       });
+  //     });
+  // }, []);
   return (
     <div>
-      <div className="float-right my-2">
-        <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
-          Add a slot
-        </button>
+      <div className=" my-2">
+        <Link to="/smartPark/add-spot">
+          <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
+            Add a slot
+          </button>
+        </Link>
       </div>
       <div className="h-[80vh] w-full">
-        <div className="fixed top-36 z-10">
-          <Box sx={{ width: 240, p: 3 }}>
-            <Box ref={containerRef}></Box>
-          </Box>
-        </div>
         <ReactMapGL
-          initialViewState={initialViewState}
+          // initialViewState={initialViewState}
+          // initialViewState={{zoom:10}}
           mapboxAccessToken={process.env.REACT_APP_MAPBOX_KEY}
           mapStyle="mapbox://styles/mapbox/streets-v11"
           ref={mapRef}
@@ -150,7 +153,7 @@ const ClusterMap = () => {
             }
             return (
               <Marker
-                key={`room-${cluster.properties.roomId}`}
+                key={`slot-${cluster.properties.roomId}`}
                 longitude={longitude}
                 latitude={latitude}
               >
@@ -161,7 +164,8 @@ const ClusterMap = () => {
               </Marker>
             );
           })}
-          <GeocoderInput />
+
+          <Geocoder handleChange={handleChange} />
           {popupInfo && (
             <Popup
               longitude={popupInfo.lng}

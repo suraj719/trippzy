@@ -2,37 +2,21 @@ import { Box } from "@mui/material";
 import ReactMapGL, { GeolocateControl, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef } from "react";
-import Geocoder from "./Geocoder";
-import { useValue } from "../../../context/ContextProvider";
+import Geocoder from "../Geocoder";
 
-const AddLocation = () => {
-  const {
-    state: {
-      location: { lng, lat },
-      currentUser,
-    },
-    dispatch,
-  } = useValue();
+const AddLocation = ({ lat, lng, handleChange }) => {
   const mapRef = useRef();
-
   useEffect(() => {
-    // const storedLocation = JSON.parse(
-    //   localStorage.getItem(currentUser.id)
-    // )?.location;
     if (!lng && !lat) {
       fetch("https://ipapi.co/json")
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          dispatch({
-            type: "UPDATE_LOCATION",
-            payload: { lng: data.longitude, lat: data.latitude },
-          });
+          handleChange(data.latitude, data.longitude);
         });
     }
   }, []);
-
   useEffect(() => {
     if ((lng || lat) && mapRef.current) {
       mapRef.current.flyTo({
@@ -48,12 +32,12 @@ const AddLocation = () => {
         }}
       >
         <ReactMapGL
-          ref={mapRef}
           mapboxAccessToken={process.env.REACT_APP_MAPBOX_KEY}
+          ref={mapRef}
           initialViewState={{
-            longitude: lng,
-            latitude: lat,
-            zoom: 8,
+            latitude: 17.366,
+            longitude: 78.476,
+            zoom: 10,
           }}
           mapStyle="mapbox://styles/mapbox/streets-v11"
         >
@@ -61,24 +45,18 @@ const AddLocation = () => {
             latitude={lat}
             longitude={lng}
             draggable
-            onDragEnd={(e) =>
-              dispatch({
-                type: "UPDATE_LOCATION",
-                payload: { lng: e.lngLat.lng, lat: e.lngLat.lat },
-              })
-            }
+            onDragEnd={(e) => {
+              handleChange(e.lngLat.lat, e.lngLat.lng);
+            }}
           />
           <GeolocateControl
             position="top-left"
             trackUserLocation
-            onGeolocate={(e) =>
-              dispatch({
-                type: "UPDATE_LOCATION",
-                payload: { lng: e.coords.longitude, lat: e.coords.latitude },
-              })
-            }
+            onGeolocate={(e) => {
+              handleChange(e.coords.latitude, e.coords.longitude);
+            }}
           />
-          <Geocoder />
+          <Geocoder handleChange={handleChange} />
         </ReactMapGL>
       </Box>
     </div>

@@ -12,7 +12,7 @@ export default function Navbar() {
   const { user } = useSelector((state) => state.user);
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Add your Place", href: "/smartPark/add-spot" },
+    { name: "smartPark", href: "/smartPark" },
     { name: "Planner", href: "/planner" },
     { name: "Trips", href: "/trips" },
   ];

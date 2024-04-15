@@ -1,6 +1,6 @@
 import React from "react";
 import AddLocation from "./AddLocation";
-export default function AboutPlace({ setIndex }) {
+export default function AboutPlace({ setIndex, handleChange, slotData }) {
   return (
     <>
       <div>
@@ -12,7 +12,11 @@ export default function AboutPlace({ setIndex }) {
             </p>
           </div>
           <div className="border-2 rounded-lg border-gray-400 shadow-lg p-5 w-[100%] h-full">
-            <AddLocation />
+            <AddLocation
+              lat={slotData.lat}
+              lng={slotData.lng}
+              handleChange={handleChange}
+            />
           </div>
         </div>
         <div className="portrait:-bottom-5   absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">

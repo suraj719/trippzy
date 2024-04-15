@@ -10,7 +10,7 @@ import { firebaseConfig } from "../../../util/firebase/firebase";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/alerts";
 
-export default function AddImages({ setIndex }) {
+export default function AddImages({ setIndex, handleChange, slotData }) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
   const [links, setLinks] = useState([]);
@@ -48,9 +48,9 @@ export default function AddImages({ setIndex }) {
 
       try {
         const downloadURLs = await Promise.all(uploadPromises);
+        handleChange("images", downloadURLs);
         console.log("All files uploaded:", downloadURLs);
         setLinks(downloadURLs);
-        // sendRequestToBackend(downloadURLs);
       } catch (error) {
         console.error("Error uploading files:", error);
         alert("Error uploading files. Please try again.");
@@ -87,16 +87,19 @@ export default function AddImages({ setIndex }) {
         </div>
         <div>
           <textarea
+            value={slotData.description}
+            onChange={(e) => handleChange("description", e.target.value)}
             className="outline-none border rounded-lg w-[30vw] h-48 p-2 bg-black"
             placeholder="description"
           />
         </div>
       </div>
       <div className="flex flex-wrap gap-4 justify-center">
-        {links && links?.length > 0 ? (
+        {slotData.images && slotData?.images?.length > 0 ? (
           <>
-            {links.map((link) => (
+            {slotData.images.map((link, index) => (
               <img
+                key={index + "img"}
                 className="w-[10rem] h-[10rem] rounded-lg object-cover"
                 src={link}
               />
