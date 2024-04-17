@@ -5,6 +5,7 @@ import connectDB from "./Connection.js";
 import userRouter from "./routes/userRouter.js";
 import slotRouter from "./routes/slotRoute.js";
 import bookingRouter from "./routes/bookingRoute.js";
+import tripRouter from "./routes/tripRoute.js";
 
 const app = express();
 app.use(express.json({ limit: "50mb" }));
@@ -12,6 +13,7 @@ app.use(cors());
 app.use("/api/user", userRouter);
 app.use("/api/slot", slotRouter);
 app.use("/api/booking", bookingRouter);
+app.use("/api/trip", tripRouter);
 
 dotenv.config();
 const port = process.env.PORT || 5001;

@@ -5,7 +5,7 @@ function PublicRoute(props) {
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      navigate("/dashboard/teacher");
+      navigate("/trips");
     }
   }, []);
 

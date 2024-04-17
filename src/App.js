@@ -19,6 +19,8 @@ import BookSpot from "./pages/smartPark/parkingSpot";
 import "./App.css";
 import Weather from "./pages/PlannerPage/Weather";
 import TripWeather from "./pages/TripsPage/TripWeather";
+import CreateTrip from "./pages/TripsPage/CreateTrip";
+import TripPage from "./pages/TripsPage/TripPage";
 
 export default function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -62,10 +64,33 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/trips/create"
+          element={
+            <ProtectedRoute>
+              <CreateTrip />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/trips"
+          element={
+            <ProtectedRoute>
+              <TripsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/trip/:tripID"
+          element={
+            <ProtectedRoute>
+              <TripPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/smartPark/bookings" element={<SpotBookings />} />
         <Route path="/smartPark/my-spots" element={<MySpots />} />
         <Route path="/planner" element={<PlannerPage />} />
-        <Route path="/trips" element={<TripsPage />} />
         <Route path="/weather" element={<Weather />} />
         <Route path="/trip/weather" element={<TripWeather />} />
         <Route path="*" element={<ErrorPage />} />

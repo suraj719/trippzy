@@ -150,7 +150,7 @@ export default function Weather() {
 
   return (
     <>
-      <div className="rounded-lg p-5 my-2">
+      <div className="border rounded-lg p-5 my-2">
         {selectedPlace ? (
           <>
             <p className="text-center text-lg font-bold">
