@@ -14,14 +14,22 @@ export default function BookSpot() {
     outdate: "",
   });
   const [noofdays, setnoofdays] = useState(0);
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [location, setLocation] = useState();
-  if (slide > data?.images?.length - 1) {
-    setSlide(0);
-  }
-  if (slide < 0) {
-    setSlide(data?.images?.length - 1);
-  }
+  const handleNext = (ind) => {
+    if (ind > data?.images?.length - 1) {
+      setSlide(0);
+    } else {
+      setSlide(ind);
+    }
+  };
+  const handlePrev = (ind) => {
+    if (ind < 0) {
+      setSlide(data?.images?.length - 1);
+    } else {
+      setSlide(ind);
+    }
+  };
   const handleres = (e) => {
     setResdetails({
       ...resdetails,
@@ -68,26 +76,36 @@ export default function BookSpot() {
               {data.rating || 5} ⭐ , ₹ {data.price} per day
             </p>
             <div className="mt-5 rounded-2xl flex portrait:flex-col justify-center   items-center">
-              <div className=" w-[60vw] flex items-center gap-5 text-2xl">
-                <button
-                  className="rounded-full p-3 hover:shadow-2xl hover:bg-gray-800"
-                  onClick={() => setSlide(slide - 1)}
-                >
-                  &#10094;
-                </button>
-                <img
-                  className="rounded-2xl object-cover w-[80%] object-contain h-[25rem] hover:shadow-2xl"
-                  src={data?.images[slide]}
-                  alt="img"
-                  // style={{ width: "20rem", height: "25rem" }}
-                />
-                <button
-                  className="rounded-full p-3 hover:shadow-2xl hover:bg-gray-800"
-                  onClick={() => setSlide(slide + 1)}
-                >
-                  &#10095;
-                </button>
-              </div>
+              {data?.images.length > 0 ? (
+                <>
+                  <div className=" w-[60vw] flex items-center gap-5 text-2xl">
+                    <button
+                      className="rounded-full p-3 hover:shadow-2xl hover:bg-gray-800"
+                      onClick={() => handlePrev(slide - 1)}
+                    >
+                      &#10094;
+                    </button>
+                    <img
+                      className="rounded-2xl object-cover w-[80%] object-contain h-[25rem] hover:shadow-2xl"
+                      src={data?.images[slide]}
+                      alt="img"
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = "../defaultImg.png";
+                      }}
+                      // style={{ width: "20rem", height: "25rem" }}
+                    />
+                    <button
+                      className="rounded-full p-3 hover:shadow-2xl hover:bg-gray-800"
+                      onClick={() => handleNext(slide + 1)}
+                    >
+                      &#10095;
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
               <div className="w-[35vw]">
                 <p className="text-xl my-2 break-words">
                   <span className="font-bold ">Address: </span>

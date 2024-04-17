@@ -1,64 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fetchWeatherApi } from "openmeteo";
+import { useLocation } from "react-router";
+import { useDispatch } from "react-redux";
+import { HideLoading, ShowLoading } from "../../redux/alerts";
 
-export default function Weather() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const inputRef = useRef();
-  const currentDate = new Date();
-  const futureDate = new Date(currentDate);
-  futureDate.setDate(currentDate.getDate() + 7);
+export default function TripWeather() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
 
+  const lat = queryParams.get("lat");
+  const lng = queryParams.get("lng");
+  const fromDate = queryParams.get("from");
+  const toDate = queryParams.get("to");
+  const place_name = queryParams.get("place_name");
+  const currentDate = new Date(fromDate || new Date());
+  const futureDate = new Date(toDate || currentDate);
+  if (!toDate) {
+    futureDate.setDate(currentDate.getDate() + 7);
+  }
   const formattedCurrentDate = currentDate.toISOString().split("T")[0];
   const formattedFutureDate = futureDate.toISOString().split("T")[0];
-  const handleAddPlace = (place) => {
-    setQuery("");
-    // setSelectedPlaces([...selectedPlaces, place]);
-    inputRef.current.value = place.place_name;
-    const fomrattedData = {
-      id: place.id,
-      place_name: place.place_name,
-      lng: place.geometry.coordinates[0],
-      lat: place.geometry.coordinates[1],
-    };
-    setSelectedPlace(fomrattedData);
-    setResults([]);
-  };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (query) {
-        fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.REACT_APP_MAPBOX_KEY}&autocomplete=true`
-        )
-          .then((res) => res.json())
-          .then((data) => setResults(data.features))
-          .catch((error) => console.error("Error fetching data:", error));
-      } else {
-        setResults([]);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
   const [weatherData, setWeatherData] = useState(null);
   const [floodData, setFloodData] = useState(null);
   const range = (start, stop, step) =>
     Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
   const [error, setError] = useState(null);
-
   useEffect(() => {
-    if (selectedPlace) {
+    dispatch(ShowLoading());
+    if (lat && lng && formattedCurrentDate && formattedFutureDate) {
       const fetchWeatherData = async () => {
         try {
           const params = {
-            latitude: selectedPlace?.lat,
-            longitude: selectedPlace?.lng,
+            latitude: lat,
+            longitude: lng,
             current: ["temperature_2m", "rain"],
             start_date: formattedCurrentDate,
             end_date: formattedFutureDate,
@@ -107,8 +83,8 @@ export default function Weather() {
       };
       const fetchFloodData = async () => {
         const params = {
-          latitude: selectedPlace?.lat,
-          longitude: selectedPlace?.lng,
+          latitude: lat,
+          longitude: lng,
           start_date: formattedCurrentDate,
           end_date: formattedFutureDate,
           // start_date: "2024-04-17",
@@ -146,48 +122,22 @@ export default function Weather() {
       fetchWeatherData();
       fetchFloodData();
     }
-  }, [selectedPlace]);
+    dispatch(HideLoading());
+  }, []);
 
   return (
     <>
       <div className="rounded-lg p-5 my-2">
-        {selectedPlace ? (
+        {place_name ? (
           <>
             <p className="text-center text-lg font-bold">
-              Weather forecast of {selectedPlace.place_name}
+              Weather forecast of {place_name}
             </p>
           </>
         ) : (
           <p className="text-center text-lg font-bold">Weather forecast</p>
         )}
-        <div className="container mx-auto p-4">
-          <input
-            type="text"
-            ref={inputRef}
-            onChange={handleInputChange}
-            placeholder="Search for a location..."
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-        <div className="mx-4">
-          {results &&
-            results?.length > 0 &&
-            results?.map((result) => (
-              <div
-                key={result.id}
-                className="mb-2 p-2 border rounded-md cursor-pointer"
-                onClick={() => handleAddPlace(result)}
-              >
-                <h3 className="text-sm font-semibold break-all">
-                  {result.place_name}
-                </h3>
-                <p className="text-gray-400 break-words">
-                  {result.context?.map((context) => context.text).join(", ")}
-                </p>
-              </div>
-            ))}
-        </div>
-        {selectedPlace && weatherData && floodData ? (
+        {lat && lng && weatherData && floodData ? (
           <>
             <div className="my-2">
               <h2>Current Weather</h2>
@@ -195,7 +145,6 @@ export default function Weather() {
                 Date: {weatherData.current.time.toLocaleDateString("en-GB")}
               </p>
               <p>Temperature: {weatherData.current.temperature2m}°C</p>
-              {/* <p>Rain: {weatherData.current.rain}</p> */}
             </div>
             <div className="flex items-center justify-center">
               <table

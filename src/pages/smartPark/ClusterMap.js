@@ -153,7 +153,7 @@ const ClusterMap = () => {
             }
             return (
               <Marker
-                key={`slot-${cluster.properties.roomId}`}
+                key={`slot-${cluster.properties.slotId}`}
                 longitude={longitude}
                 latitude={latitude}
               >

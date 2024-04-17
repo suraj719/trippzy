@@ -13,10 +13,24 @@ body {
   overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 10px;
 }
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+}
+
 input {
   background-color: black;
   color: white;

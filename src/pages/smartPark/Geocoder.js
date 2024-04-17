@@ -10,6 +10,7 @@ const Geocoder = ({ handleChange }) => {
   });
   useControl(() => ctrl);
   ctrl.on("result", (e) => {
+    console.log(e);
     const coords = e.result.geometry.coordinates;
     handleChange(coords[1], coords[0]);
   });

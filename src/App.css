@@ -9,7 +9,9 @@ body {
   font-family: "Manrope", sans-serif;
   color: rgba(255, 255, 255, 0.8);
 }
-
+input[type="date"] {
+  color-scheme: "dark";
+}
 .prompt-box,
 .inp-num {
   border-bottom-width: 1px;

@@ -1,14 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MistralClient from "@mistralai/mistralai";
 
 export default function PlannerPage() {
   const [duration, setDuration] = useState(2);
   const [hotels, setHotels] = useState(true);
   const [restaurants, setRestaurants] = useState(true);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("Any month");
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const inputRef = useRef();
   const countryList = ["india", "chaina"];
-  const months = ["april", "may"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (query) {
+        fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.REACT_APP_MAPBOX_KEY}&autocomplete=true`
+        )
+          .then((res) => res.json())
+          .then((data) => setResults(data.features))
+          .catch((error) => console.error("Error fetching data:", error));
+      } else {
+        setResults([]);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
+
   const [apiOutput, setApiOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const client = new MistralClient(process.env.REACT_APP_MISTRAL_API_KEY);
@@ -20,8 +58,7 @@ export default function PlannerPage() {
       "- Hotels (prefer not to change it unless traveling to another city)\n";
     const addRestaurantsPrompt =
       "- Restaurants, one for lunch and another for dinner\n";
-
-    let prompt = `${basePrompt} ${duration} days to ${selectedCountry} in the coming ${selectedMonth}. Describe the weather of that month, and also 5 things to take note about this country's culture. \n\nFor each day, list me the following:\n- 5 places that are suitable for that season\n`;
+    let prompt = `${basePrompt} ${duration} days to ${selectedPlace} in the coming ${selectedMonth} 2024. Describe the weather of that month, and also mention 5 things to take note about  ${selectedPlace}. \n\nFor each day, list me the following:\n- 5 places which are suitable to visit in the month of ${selectedMonth}\n`;
     if (hotels) prompt += addHotelsPrompt;
     if (restaurants) prompt += addRestaurantsPrompt;
     prompt +=
@@ -49,24 +86,44 @@ export default function PlannerPage() {
               Travel Itinerary Generator ✨
             </h1>
             <div className="my-4 flex flex-col">
-              <div className="flex items-center">
-                <span className="">Where do you want to go?</span>
+              <div className="w-full" style={{ zIndex: "100" }}>
+                <div className="flex items-center">
+                  <span className="">Where do you want to go?</span>
+                </div>
+                <input
+                  type="text"
+                  ref={inputRef}
+                  // value={query}
+                  onChange={handleInputChange}
+                  placeholder="Search for a location..."
+                  className="prompt-box w-full"
+                />
+                {results?.length > 0 ? (
+                  <>
+                    <div className="border bg-gray-800 rounded-lg p-2 mt-1 max-w-[30vw] ">
+                      {results?.map((result) => (
+                        <div
+                          key={result.id}
+                          className="cursor-pointer my-1"
+                          onClick={() => {
+                            setSelectedPlace(result.place_name);
+                            // setQuery(result.place_name);
+                            inputRef.current.value = result.place_name;
+                            setResults([]);
+                          }}
+                        >
+                          <h3 className="text-sm break-all">
+                            {result.place_name}
+                          </h3>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
-              <select
-                value={selectedCountry}
-                onChange={(e) => setSelectedCountry(e.target.value)}
-                className="prompt-box mt-2"
-              >
-                <option className="text-black" value="">
-                  Select a country
-                </option>
-                {countryList.map((country) => (
-                  <option className="text-black" key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
-              </select>
-              <div className="flex w-100 mt-4">
+              <div className="flex w-100 mt-4 z-0">
                 <div
                   className="flex-none mr-6 flex-col items-start"
                   style={{ display: "flex", width: "180px" }}
@@ -141,7 +198,7 @@ export default function PlannerPage() {
                   </button>
                 ) : (
                   <button
-                    className="mt-2 w-full font-bold text-white bg-green-400 text-black p-4 rounded-lg hover:bg-green-500"
+                    className="mt-2 w-full font-bold text-white bg-green-600 text-black p-4 rounded-lg hover:bg-green-500"
                     onClick={generateItinerary}
                   >
                     Generate
