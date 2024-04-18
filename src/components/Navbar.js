@@ -16,6 +16,7 @@ export default function Navbar() {
     { name: "Planner", href: "/planner" },
     { name: "Trips", href: "/trips" },
     { name: "Weather", href: "/weather" },
+    {name:"Guides",href:"/guides"}
   ];
   const handleLogout = () => {
     dispatch(Setuser(null));

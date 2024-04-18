@@ -21,6 +21,8 @@ import Weather from "./pages/PlannerPage/Weather";
 import TripWeather from "./pages/TripsPage/TripWeather";
 import CreateTrip from "./pages/TripsPage/CreateTrip";
 import TripPage from "./pages/TripsPage/TripPage";
+import GuidesPage from "./pages/GuidesPage";
+import MainHome from "./pages/LocalActivitiesPage/MainHome";
 
 export default function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -88,6 +90,8 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/guides" element={<GuidesPage />} />
+        <Route path="/local-activities" element={<MainHome />} />
         <Route path="/smartPark/bookings" element={<SpotBookings />} />
         <Route path="/smartPark/my-spots" element={<MySpots />} />
         <Route path="/planner" element={<PlannerPage />} />
