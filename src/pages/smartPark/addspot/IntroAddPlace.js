@@ -57,7 +57,10 @@ export default function IntroAddPlace({ setIndex }) {
           <hr />
         </div>
       </div>
-      <div className="absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-end mx-4 items-center border-t-2 border-gray-500  font-bold pt-2 ">
+      <div
+        className="portrait:-bottom-24 w-full  absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-end pe-4 pb-2 items-center  font-bold border-t-2 border-gray-500 pt-2"
+        // className="absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-end mx-4 items-center border-t-2 border-gray-500  font-bold pt-2 "
+      >
         <button
           onClick={() => {
             setIndex(1);

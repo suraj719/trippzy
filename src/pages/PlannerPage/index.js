@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import MistralClient from "@mistralai/mistralai";
+import { useDispatch } from "react-redux";
+import { HideLoading, ShowLoading } from "../../redux/alerts";
+import { toast } from "react-hot-toast";
 
 export default function PlannerPage() {
+  const dispatch = useDispatch();
   const [duration, setDuration] = useState(2);
   const [hotels, setHotels] = useState(true);
   const [restaurants, setRestaurants] = useState(true);
   const [selectedPlace, setSelectedPlace] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("Any month");
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const inputRef = useRef();
-  const countryList = ["india", "chaina"];
+
   const months = [
     "January",
     "February",
@@ -26,32 +27,13 @@ export default function PlannerPage() {
     "December",
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (query) {
-        fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${process.env.REACT_APP_MAPBOX_KEY}&autocomplete=true`
-        )
-          .then((res) => res.json())
-          .then((data) => setResults(data.features))
-          .catch((error) => console.error("Error fetching data:", error));
-      } else {
-        setResults([]);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
-
   const [apiOutput, setApiOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const client = new MistralClient(process.env.REACT_APP_MISTRAL_API_KEY);
 
   const generateItinerary = async () => {
+    toast("making an itinerary for you🪄✨");
+    dispatch(ShowLoading());
     setIsGenerating(true);
     const basePrompt = "Write me an itinerary for";
     const addHotelsPrompt =
@@ -75,13 +57,14 @@ export default function PlannerPage() {
     } finally {
       setIsGenerating(false);
     }
+    dispatch(HideLoading());
   };
 
   return (
-    <div className="flex items-center landscape:h-[85vh]">
-      <div className="flex portrait:flex-col items-center justify-evenly w-[100vw] h-full">
-        <div className="flex items-center h-full">
-          <div className="portrait:p-2 portrait:my-2 flex flex-col items-center border border-gray-500 rounded-lg px-10 pt-10 flex flex-col items-start justify-start">
+    <div className="flex items-center landscape:h-[85vh] ">
+      <div className="flex portrait:flex-col items-center justify-evenly w-[100vw]  h-full">
+        <div className="flex items-center justify-evenly h-full portrait:max-w-[90vw] portrait:mx-2">
+          <div className="portrait:p-2 portrait:max-w-[90vw] portrait:my-2 flex flex-col items-center border border-gray-500 rounded-lg px-10 pt-10 flex flex-col items-start justify-start ">
             <h1 className="text-white font-bold text-3xl">
               Travel Itinerary Generator ✨
             </h1>
@@ -92,38 +75,14 @@ export default function PlannerPage() {
                 </div>
                 <input
                   type="text"
-                  ref={inputRef}
-                  // value={query}
-                  onChange={handleInputChange}
-                  placeholder="Search for a location..."
+                  onChange={(e) => {
+                    setSelectedPlace(e.target.value);
+                  }}
+                  placeholder="enter the location..."
                   className="prompt-box w-full"
                 />
-                {results?.length > 0 ? (
-                  <>
-                    <div className="border bg-gray-800 rounded-lg p-2 mt-1 max-w-[30vw] ">
-                      {results?.map((result) => (
-                        <div
-                          key={result.id}
-                          className="cursor-pointer my-1"
-                          onClick={() => {
-                            setSelectedPlace(result.place_name);
-                            // setQuery(result.place_name);
-                            inputRef.current.value = result.place_name;
-                            setResults([]);
-                          }}
-                        >
-                          <h3 className="text-sm break-all">
-                            {result.place_name}
-                          </h3>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
               </div>
-              <div className="flex w-100 mt-4 z-0">
+              <div className="flex portrait:flex-wrap w-full mt-4 z-0">
                 <div
                   className="flex-none mr-6 flex-col items-start"
                   style={{ display: "flex", width: "180px" }}
@@ -191,7 +150,7 @@ export default function PlannerPage() {
               <div className="py-5">
                 {isGenerating ? (
                   <button
-                    className="cursor-progress mt-2 w-full font-bold text-white bg-green-400 text-black p-4 rounded-lg hover:bg-green-500"
+                    className="cursor-progress mt-2 w-full font-bold text-white bg-green-600 text-black p-4 rounded-lg hover:bg-green-500"
                     disabled
                   >
                     Creating your itinerary....

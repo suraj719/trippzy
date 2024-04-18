@@ -19,7 +19,7 @@ export default function AboutPlace({ setIndex, handleChange, slotData }) {
             />
           </div>
         </div>
-        <div className="portrait:-bottom-5   absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">
+        <div className="portrait:-bottom-10   absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">
           <button
             onClick={() => {
               setIndex(0);

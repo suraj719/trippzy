@@ -28,7 +28,7 @@ export default function Login() {
       if (response.data.success) {
         toast.success("login successfull");
         localStorage.setItem("token", response.data.data);
-        navigate("/dashboard/teacher");
+        navigate("/trips");
       } else {
         toast.error(response.data.message);
       }

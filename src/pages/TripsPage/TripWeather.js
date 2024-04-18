@@ -127,7 +127,7 @@ export default function TripWeather() {
 
   return (
     <>
-      <div className="rounded-lg p-5 my-2">
+      <div className="rounded-lg p-5 my-2 ">
         {place_name ? (
           <>
             <p className="text-center text-lg font-bold">
@@ -146,7 +146,7 @@ export default function TripWeather() {
               </p>
               <p>Temperature: {weatherData.current.temperature2m}°C</p>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center landscape:justify-center overflow-x-auto">
               <table
                 className="rounded-lg"
                 style={{ borderCollapse: "collapse", width: "100%" }}

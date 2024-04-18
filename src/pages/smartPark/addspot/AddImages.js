@@ -63,13 +63,13 @@ export default function AddImages({ setIndex, handleChange, slotData }) {
   }, [files]);
   return (
     <>
-      <div className="p-4">
+      <div className="p-4 mb-10">
         <p className="text-xl">step 2</p>
         <p className="font-bold  text-[2rem]">
           Add some photos and description
         </p>
       </div>
-      <div className="flex flex-wrap justify-center gap-10 items-center  min-h-[40vh] p-5">
+      <div className="flex portrait:flex-col justify-center gap-10 items-center min-h-[40vh] p-5">
         <div className="lg:w-[30%] w-[80%]">
           <div className="flex flex-col border-2 rounded-lg border-gray-400 shadow-lg p-5 h-48 items-center justify-center  lg:mt-0 -mt-20">
             <p>you can upload any number of photos</p>
@@ -89,7 +89,7 @@ export default function AddImages({ setIndex, handleChange, slotData }) {
           <textarea
             value={slotData.description}
             onChange={(e) => handleChange("description", e.target.value)}
-            className="outline-none border rounded-lg w-[30vw] h-48 p-2 bg-black"
+            className="outline-none border rounded-lg w-[30vw] portrait:w-[70vw] h-48 p-2 bg-black"
             placeholder="description"
           />
         </div>
@@ -109,7 +109,7 @@ export default function AddImages({ setIndex, handleChange, slotData }) {
           <></>
         )}
       </div>
-      <div className="absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">
+      <div className="portrait:-bottom-10 absolute bottom-4 lg:w-[98vw] sm:w-[90vw] flex gap-2 justify-between mx-4 items-center  font-bold border-t-2 border-gray-500 pt-2">
         <button
           onClick={() => {
             setIndex(1);

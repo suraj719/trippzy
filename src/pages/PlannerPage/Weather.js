@@ -197,7 +197,7 @@ export default function Weather() {
               <p>Temperature: {weatherData.current.temperature2m}°C</p>
               {/* <p>Rain: {weatherData.current.rain}</p> */}
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center landscape:justify-center overflow-x-auto">
               <table
                 className="rounded-lg"
                 style={{ borderCollapse: "collapse", width: "100%" }}
