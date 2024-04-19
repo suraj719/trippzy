@@ -21,7 +21,7 @@ class MainHome extends Component {
           navigationData={HeaderNavData}
         />
         <TopCities />
-        <HeadoutPicks pickedData={pickedData} headline={"Headout Picks"} />
+        <HeadoutPicks pickedData={pickedData} headline={"TrippZy Picks"} />
         <Collections collectionsData={collectionsData} />
       </div>
     );
@@ -50,7 +50,7 @@ const backgroundImagesData = [
 const HeaderNavData = [
   {
     id: 1,
-    name: "Headout Picks",
+    name: "TrippZy Picks",
   },
   {
     id: 2,

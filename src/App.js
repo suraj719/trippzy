@@ -23,6 +23,8 @@ import CreateTrip from "./pages/TripsPage/CreateTrip";
 import TripPage from "./pages/TripsPage/TripPage";
 import GuidesPage from "./pages/GuidesPage";
 import MainHome from "./pages/LocalActivitiesPage/MainHome";
+import VRPage from "./pages/VRPage";
+import PanellumPage from "./pages/VRPage/PanellumPage";
 
 export default function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -31,6 +33,7 @@ export default function App() {
       <Navbar />
       <Toaster />
       {loading ? <Spinner /> : null}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -91,7 +94,9 @@ export default function App() {
           }
         />
         <Route path="/guides" element={<GuidesPage />} />
-        <Route path="/local-activities" element={<MainHome />} />
+        <Route path="/popular" element={<MainHome />} />
+        <Route path="/vr-view" element={<VRPage />} />
+        <Route path="/vr-view/3dview" element={<PanellumPage />} />
         <Route path="/smartPark/bookings" element={<SpotBookings />} />
         <Route path="/smartPark/my-spots" element={<MySpots />} />
         <Route path="/planner" element={<PlannerPage />} />

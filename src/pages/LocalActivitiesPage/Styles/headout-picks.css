@@ -12,7 +12,7 @@
 }
 
 .headout-picks-nav h1 {
-  color: #545454;
+  color: #ffffff;
   font-weight: 300;
   font-size: 27px;
   margin: 0px;
@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: flex-end;
   cursor: pointer;
-  color: #545454;
+  color: #fdfdfd;
 }
 
 .view-all h3 {
@@ -40,7 +40,7 @@
 }
 
 .view-all:hover {
-  color: #4fc3f7;
+  color: #7fd5fc;
 }
 
 .view-all:hover i {
@@ -137,7 +137,7 @@
 
 #exp-city {
   text-align: left;
-  color: #9a9a9a;
+  color: #e3e3e3;
   font-weight: 500;
   font-size: 13px;
   margin: 0px;
@@ -156,7 +156,7 @@
 }
 
 #exp-description {
-  color: #545454;
+  color: #e5e5e5;
   font-size: 13px;
   line-height: 20px;
   font-weight: 500;
@@ -226,7 +226,7 @@
 }
 
 .ratings-section p {
-  color: #9a9a9a;
+  color: #e2dddd;
   font-size: 11px;
   margin: 0px;
 }
@@ -239,7 +239,7 @@
 }
 
 .price p {
-  color: #9a9a9a;
+  color: #e2e0e0;
   font-size: 11px;
   margin: 0px;
 }
@@ -251,7 +251,7 @@
 }
 
 #price {
-  color: #545454;
+  color: #dddddd;
   font-size: 19.8px;
   padding-bottom: 10px;
 }

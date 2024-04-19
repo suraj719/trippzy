@@ -53,7 +53,7 @@ export class HeaderNav extends Component {
     navigationData: [
       {
         id: 1,
-        name: "Headout Picks",
+        name: "TrippZy Picks",
       },
       {
         id: 2,

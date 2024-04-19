@@ -84,7 +84,7 @@ class ExperienceCard extends Component {
               <div className="exp-info-wrap">
                 {city ? (
                   <React.Fragment>
-                    <p id="exp-city">{city}</p>
+                    <p  id="exp-city">{city}</p>
                     <p id="exp-description">{this.props.description}</p>
                   </React.Fragment>
                 ) : (

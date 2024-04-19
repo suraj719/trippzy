@@ -51,7 +51,7 @@ export default function AddSpotPage() {
         }
       );
       if (response.data.success) {
-        toast.success("successfully created your account");
+        toast.success("successfully created your slot!!");
         navigate("/smartPark");
       } else {
         toast.error("something went wrong!");

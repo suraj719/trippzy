@@ -12,11 +12,13 @@ export default function Navbar() {
   const { user } = useSelector((state) => state.user);
   const navigation = [
     { name: "Home", href: "/" },
+    { name: "Popular", href: "/popular" },
     { name: "smartPark", href: "/smartPark" },
     { name: "Planner", href: "/planner" },
     { name: "Trips", href: "/trips" },
-    { name: "Weather", href: "/weather" },
-    {name:"Guides",href:"/guides"}
+    // { name: "Weather", href: "/weather" },
+    { name: "Guides", href: "/guides" },
+    { name: "VR view", href: "/vr-view" },
   ];
   const handleLogout = () => {
     dispatch(Setuser(null));

@@ -34,31 +34,44 @@ export default function TripsPage() {
   }, []);
   return (
     <>
-      <div
-        className="border rounded-lg p-4 my-4"
-        style={{ maxHeight: "80vh", overflow: "auto" }}
-      >
-        <div className="flex justify-between">
-          <p className="text-xl font-bold">Your trips</p>
-          <Link
-            to="/trips/create"
-            className="border rounded-lg p-2 px-4 bg-gray-800 hover:bg-gray-700"
+      {data?.length > 0 ? (
+        <>
+          <div
+            className="border rounded-lg p-4 my-4"
+            style={{ maxHeight: "80vh", overflow: "auto" }}
           >
-            create trip
-          </Link>
-        </div>
-        <div className="my-4">
-          {data?.map((trip, index) => {
-            return (
-              <Link to={`/trip/${trip._id}`} key={index}>
-                <p className="border rounded-lg p-2 px-4 break-all bg-gray-800 hover:bg-gray-700">
-                  {trip.title}
-                </p>
+            <div className="flex justify-between">
+              <p className="text-xl font-bold">Your trips</p>
+              <Link
+                to="/trips/create"
+                className="border rounded-lg p-2 px-4 bg-gray-800 hover:bg-gray-700"
+              >
+                create trip
               </Link>
-            );
-          })}
-        </div>
-      </div>
+            </div>
+            <div className="my-4">
+              {data?.map((trip, index) => {
+                return (
+                  <Link to={`/trip/${trip._id}`} key={index}>
+                    <p className="border rounded-lg p-2 px-4 break-all bg-gray-800 hover:bg-gray-700">
+                      {trip.title}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="rounded-lg border flex items-center justify-center w-[100vw] h-[85vh] m-2">
+            <div className="flex text-xl gap-4">
+              <p>There are no trips created by you!!</p>
+              <Link to="/trips/create" className="underline">create new trip</Link>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
