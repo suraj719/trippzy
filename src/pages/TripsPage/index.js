@@ -53,7 +53,7 @@ export default function TripsPage() {
               {data?.map((trip, index) => {
                 return (
                   <Link to={`/trip/${trip._id}`} key={index}>
-                    <p className="border rounded-lg p-2 px-4 break-all bg-gray-800 hover:bg-gray-700">
+                    <p className="mb-2 border rounded-lg p-2 px-4 break-all bg-gray-800 hover:bg-gray-700">
                       {trip.title}
                     </p>
                   </Link>
