@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ParkingSpotCard from "../../components/ParkingSpotCard";
 import ClusterMap from "./ClusterMap";
 export default function SmartPark() {
@@ -138,6 +139,23 @@ export default function SmartPark() {
   ]);
   return (
     <>
+      <div className="flex gap-4 my-2">
+        <Link to="/smartPark/add-spot">
+          <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
+            Add a slot
+          </button>
+        </Link>
+        <Link to="/smartPark/my-slots">
+          <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
+            your slots
+          </button>
+        </Link>
+        <Link to="/smartPark/bookings">
+          <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
+            your bookings
+          </button>
+        </Link>
+      </div>
       <ClusterMap />
       {/* <div className="my-5 mb-10">
         <div className=" flex items-center justify-center gap-2">

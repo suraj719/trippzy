@@ -10,7 +10,7 @@ export default function SpotBookings() {
       payment: true,
       txnUrl: "0x12345498797458787",
       txnChain: "1029",
-      charges: "0.155",
+      charges: "450",
       checkInTime: "12jan",
       checkOutTime: "13jan",
       verified: true,
@@ -23,15 +23,15 @@ export default function SpotBookings() {
       payment: false,
       txnUrl: "0x121468744874661543",
       txnChain: "1029",
-      charges: "0.155",
+      charges: "500",
       checkInTime: "12jan",
       checkOutTime: "13jan",
       verified: false,
     },
   ];
   return (
-    <div className="p-5">
-      <p className="font-bold text-3xl">Your Bookings: </p>
+    <div className="p-5 text-black">
+      <p className="font-bold text-3xl text-white">Your Bookings: </p>
       {bookings.length > 0 ? (
         <>
           <div className="flex flex-col gap-5 p-4">

@@ -102,13 +102,6 @@ const ClusterMap = () => {
   // }, []);
   return (
     <div>
-      <div className=" my-2">
-        <Link to="/smartPark/add-spot">
-          <button className="border rounded-lg p-2 px-4 hover:bg-gray-800">
-            Add a slot
-          </button>
-        </Link>
-      </div>
       <div className="h-[80vh] w-full">
         <ReactMapGL
           // initialViewState={initialViewState}

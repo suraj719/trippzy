@@ -98,7 +98,7 @@ export default function App() {
         <Route path="/vr-view" element={<VRPage />} />
         <Route path="/vr-view/3dview" element={<PanellumPage />} />
         <Route path="/smartPark/bookings" element={<SpotBookings />} />
-        <Route path="/smartPark/my-spots" element={<MySpots />} />
+        <Route path="/smartPark/my-slots" element={<MySpots />} />
         <Route path="/planner" element={<PlannerPage />} />
         <Route path="/weather" element={<Weather />} />
         <Route path="/trip/weather" element={<TripWeather />} />
