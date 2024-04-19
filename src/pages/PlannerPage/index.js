@@ -40,7 +40,7 @@ export default function PlannerPage() {
       "- Hotels (prefer not to change it unless traveling to another city)\n";
     const addRestaurantsPrompt =
       "- Restaurants, one for lunch and another for dinner\n";
-    let prompt = `${basePrompt} ${duration} days to ${selectedPlace} in the coming ${selectedMonth} 2024. Describe the weather of that month, and also mention 5 things to take note about  ${selectedPlace}. \n\nFor each day, list me the following:\n- 5 places which are suitable to visit in the month of ${selectedMonth}\n`;
+    let prompt = `${basePrompt} ${duration} days to ${selectedPlace} in the coming ${selectedMonth} 2024. Describe the weather of that month, and also mention 5 things to take note about  ${selectedPlace}. \n\nFor each day, list me the following:\n- 5 places which are suitable to visit in the month of ${selectedMonth}\n and also mention the average price budget needed(ticket fares.. etc) with complete expenditure planning`;
     if (hotels) prompt += addHotelsPrompt;
     if (restaurants) prompt += addRestaurantsPrompt;
     prompt +=

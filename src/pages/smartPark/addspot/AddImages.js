@@ -63,7 +63,7 @@ export default function AddImages({ setIndex, handleChange, slotData }) {
   }, [files]);
   return (
     <>
-      <div className="p-4 mb-10">
+      <div className="p-4 mb-1">
         <p className="text-xl">step 2</p>
         <p className="font-bold  text-[2rem]">
           Add some photos and description
