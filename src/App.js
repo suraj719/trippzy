@@ -26,6 +26,7 @@ import MainHome from "./pages/PopularPage/MainHome";
 import VRPage from "./pages/VRPage";
 import PanellumPage from "./pages/VRPage/PanellumPage";
 import LocalPage from "./pages/LocalPage";
+import PricingPage from "./pages/PricingPage";
 
 export default function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -99,6 +100,7 @@ export default function App() {
         <Route path="/vr-view" element={<VRPage />} />
         <Route path="/vr-view/3dview" element={<PanellumPage />} />
         <Route path="/local-events" element={<LocalPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/smartPark/bookings" element={<SpotBookings />} />
         <Route path="/smartPark/my-slots" element={<MySpots />} />
         <Route path="/planner" element={<PlannerPage />} />
