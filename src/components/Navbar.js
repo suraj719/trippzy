@@ -20,6 +20,7 @@ export default function Navbar() {
     { name: "Popular", href: "/popular" },
     { name: "Guides", href: "/guides" },
     { name: "Events", href: "/local-events" },
+    { name: "Community", href: "/community" },
   ];
   const handleLogout = () => {
     dispatch(Setuser(null));

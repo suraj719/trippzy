@@ -140,7 +140,9 @@ export default function TripWeather() {
         {lat && lng && weatherData && floodData ? (
           <>
             <div className="my-2">
-              <h2>Current Weather</h2>
+              {/* <h2 className="text-gray-200 text-start underline">
+                Current Weather
+              </h2> */}
               <p>
                 Date: {weatherData.current.time.toLocaleDateString("en-GB")}
               </p>
